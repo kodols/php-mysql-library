@@ -112,6 +112,7 @@
 				}
 			}
 
+			$raw_where = 0;
 			$where = 0;
 			$where_in_values = 0;
 			$where_in_subquery = 0;
@@ -145,6 +146,21 @@
 						$key = ':c'.$this->compileIndexActive.'v'.hash('crc32', count($this->compiled_params));
 						$this->compiled_params[$key] = $values2;
 						$holder .= ' '.$key;
+					}
+				}elseif($windex == 'raw_where'){
+					list($field, $operator, $value, $format, $values2, $splitter) = $this->$windex[$$windex++];
+					$holder .= ($was_change?'':' '.$splitter.' ');
+					$was_change = false;
+
+					$field = $this->clean($field);
+					$holder .= $field.' '.$operator.' '.$value;
+
+					if($format !== null){
+						$holder .= ' '.$format;
+					}
+
+					if($values2 !== null){
+						$holder .= ' '.$values2;
 					}
 				}elseif($windex == 'where_in_values'){
 					list($field, $values, $splitter, $prefix) = $this->$windex[$$windex++];
@@ -304,6 +320,22 @@
 
 		public function and_where($field, $operator, $value, $format = null, $values2 = null){
 			return $this->where($field, $operator, $value, $format, $values2, 'AND');
+		}
+
+		private $raw_where = [];
+
+		public function raw_where($field, $operator, $value, $format = null, $values2 = null, $splitter = 'AND'){
+			$this->where_indexes[] = 'raw_where';
+			$this->raw_where[] = [$field, $operator, $value, $format, $values2, $splitter];
+			return $this;
+		}
+
+		public function raw_or_where($field, $operator, $value, $format = null, $values2 = null){
+			return $this->raw_where($field, $operator, $value, $format, $values2, 'OR');
+		}
+
+		public function raw_and_where($field, $operator, $value, $format = null, $values2 = null){
+			return $this->raw_where($field, $operator, $value, $format, $values2, 'AND');
 		}
 
 		public function open(){
