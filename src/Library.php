@@ -30,7 +30,7 @@
 
 		private static $connections = [];
 
-		public function connect($connection_id){
+		public function connect($connection_id = 'default'){
 			if(!isset(self::$connections[$connection_id])){
 				if(!isset(self::$configurationDetails[$connection_id])){
 					throw new Exception('Provided database connection id "'.$connection_id.'" has not been attached');
