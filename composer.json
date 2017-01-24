@@ -12,7 +12,6 @@
             "homepage": "http://www.kodols.com"
         }
     ],
-		"version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Kodols\\MySQL\\": "src/"
