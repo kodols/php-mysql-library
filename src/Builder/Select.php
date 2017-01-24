@@ -48,7 +48,7 @@
 				$this->compiled_query .= ' * ';
 			}else{
 				foreach($this->column_indexes as $index){
-					list($column_name, $column_alias) = $this->$index[$$index++];
+					list($column_name, $column_alias) = $this->{$index}[$$index++];
 
 					if($index == 'column'){
 						$column_name = $this->clean($column_name);
@@ -129,7 +129,7 @@
 					$holder .= ')';
 					continue;
 				}elseif($windex == 'where'){
-					list($field, $operator, $value, $format, $values2, $splitter) = $this->$windex[$$windex++];
+					list($field, $operator, $value, $format, $values2, $splitter) = $this->{$windex}[$$windex++];
 					$holder .= ($was_change?'':' '.$splitter.' ');
 					$was_change = false;
 
@@ -148,7 +148,7 @@
 						$holder .= ' '.$key;
 					}
 				}elseif($windex == 'raw_where'){
-					list($field, $operator, $value, $format, $values2, $splitter) = $this->$windex[$$windex++];
+					list($field, $operator, $value, $format, $values2, $splitter) = $this->{$windex}[$$windex++];
 					$holder .= ($was_change?'':' '.$splitter.' ');
 					$was_change = false;
 
@@ -163,7 +163,7 @@
 						$holder .= ' '.$values2;
 					}
 				}elseif($windex == 'where_in_values'){
-					list($field, $values, $splitter, $prefix) = $this->$windex[$$windex++];
+					list($field, $values, $splitter, $prefix) = $this->{$windex}[$$windex++];
 					$field = $this->clean($field);
 
 					$holder .= ($was_change?'':' '.$splitter.' ');
@@ -181,7 +181,7 @@
 					}
 					$holder .= ')';
 				}elseif($windex == 'where_in_subquery'){
-					list($field, $value, $splitter, $prefix) = $this->$windex[$$windex++];
+					list($field, $value, $splitter, $prefix) = $this->{$windex}[$$windex++];
 					$field = $this->clean($field);
 
 					$holder .= ($was_change?'':' '.$splitter.' ');
