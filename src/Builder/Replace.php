@@ -6,7 +6,7 @@
 
 	class Replace extends Insert {
 
-		protected $method = 'REPLACE';
+		protected $method = 'REPLACE INTO';
 		protected $buildFormat = 'replace';
 
 	}
