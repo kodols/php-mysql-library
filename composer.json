@@ -1,0 +1,26 @@
+{
+    "name": "Kodols/php-mysql-library",
+    "description": "A Simple MySQL Library for PHP",
+    "type": "library",
+    "license": "LGPL-3.0",
+    "keywords": [
+        "mysql",
+        "database",
+        "pdo"
+    ],
+    "authors": [
+        {
+            "name": "Edward",
+            "email": "ed@flynowpaylater.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Kodols\\MySQL\\": "src/"
+        }
+    }
+    "require": {
+        "php": ">=5.2.0"
+    }
+}
