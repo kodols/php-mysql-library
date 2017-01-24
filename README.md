@@ -67,7 +67,7 @@ So when you call the server variable you can choose with of the server endpoints
 We welcome a good idea, bug fixes, suggestions and requests.
 This list will be updated every time a new contribution has been made.
 
-* **Edgars Kohs** - *author* - [Kodols Ltd.](https://www.kodols.com)
+* **Edgars Kohs** - *author* - [Kodols Ltd.](http://www.kodols.com)
 
 ## License
 
