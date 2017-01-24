@@ -251,6 +251,13 @@
 			return $this;
 		}
 
+		public function reset_column(){
+			$this->raw_column = [];
+			$this->column = [];
+			$this->column_indexes = [];
+			return $this;
+		}
+
 		public function subquery($query, $alias = null){
 			if(!is_string($query)){
 				if($query instanceof Select){
