@@ -19,7 +19,9 @@
 				$this->server->logQuery($this->buildFormat, $this->debug());
 			}
 
-			$resource = $this->server->prepare($this->compiled_query);
+			$native = $this->server->getNativePdo();
+
+			$resource = $native->prepare($this->compiled_query);
 			$resource->execute($this->compiled_params);
 
 			$this->compiled = false;

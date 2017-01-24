@@ -70,6 +70,10 @@
 			return $this->pdo;
 		}
 
+		public function getNativePdo(){
+			return $this->createPDO();
+		}
+
 		public function build($format){
 			if($format == 'insert') {
 				return new Insert($this);
