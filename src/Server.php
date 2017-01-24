@@ -9,6 +9,8 @@
 	use \Kodols\MySQL\Builder\Replace;
 	use \Kodols\MySQL\Builder\Ignore;
 	use \Kodols\MySQL\Builder\Select;
+	use \Kodols\MySQL\Builder\Delete;
+	use \Kodols\MySQL\Builder\Update;
 	use \Exception;
 	use \PDO;
 
@@ -77,6 +79,10 @@
 				return new Ignore($this);
 			}elseif($format == 'select'){
 				return new Select($this);
+			}elseif($format == 'delete'){
+				return new Delete($this);
+			}elseif($format == 'update'){
+				return new Update($this);
 			}else{
 				throw new Exception('Requested build format "'.$format.'" does not exist."');
 			}

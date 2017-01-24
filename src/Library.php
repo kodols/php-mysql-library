@@ -4,7 +4,7 @@
 
 	use \Kodols\MySQL\Configuration;
 	use \Kodols\MySQL\Server;
-	use Exception;
+	use \Exception;
 
 	class Library {
 
