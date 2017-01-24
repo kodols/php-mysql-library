@@ -2,16 +2,14 @@
     "name": "Kodols/php-mysql-library",
     "description": "A Simple MySQL Library for PHP",
     "type": "library",
-    "license": "LGPL-3.0",
-    "keywords": [
-        "mysql",
-        "database",
-        "pdo"
-    ],
+    "license": "MIT",
+    "keywords": ["mysql", "database", "pdo", "php", "query", "builder"],
+    "homepage": "http://www.kodols.com",
     "authors": [
         {
             "name": "Edward",
-            "email": "ed@kodols.com"
+            "email": "ed@kodols.com",
+            "homepage": "http://www.kodols.com"
         }
     ],
     "minimum-stability": "stable",
@@ -21,6 +19,6 @@
         }
     }
     "require": {
-        "php": ">=5.2.0"
+        "php": ">=5.4.0"
     }
 }
