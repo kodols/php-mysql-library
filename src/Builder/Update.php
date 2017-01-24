@@ -185,6 +185,7 @@
 		private $table = [];
 
 		public function table($name, $alias = null){
+			$this->compiled = false;
 			$this->table[] = [$name, $alias];
 			return $this;
 		}
@@ -192,6 +193,7 @@
 		private $joins = [];
 
 		public function join($table, $alias = null, $format = 'LEFT'){
+			$this->compiled = false;
 			if(!$format){
 				$format = '';
 			}
@@ -204,6 +206,7 @@
 		private $on = [];
 
 		public function on($field1, $operator, $field2, $format = 'AND'){
+			$this->compiled = false;
 			if(!count($this->joins)){
 				throw new Exception('Cannot call query builders ON if there was no join initiated.');
 			}
@@ -222,6 +225,7 @@
 		private $where = [];
 
 		public function where($field, $operator, $value, $format = null, $values2 = null, $splitter = 'AND'){
+			$this->compiled = false;
 			$this->where_indexes[] = 'where';
 			$this->where[] = [$field, $operator, $value, $format, $values2, $splitter];
 			return $this;
@@ -238,6 +242,7 @@
 		private $raw_where = [];
 
 		public function raw_where($field, $operator, $value, $format = null, $values2 = null, $splitter = 'AND'){
+			$this->compiled = false;
 			$this->where_indexes[] = 'raw_where';
 			$this->raw_where[] = [$field, $operator, $value, $format, $values2, $splitter];
 			return $this;
@@ -269,6 +274,7 @@
 		private $where_in_values = [];
 
 		public function where_in_values($field, array $values, $splitter = 'AND', $prefix = ''){
+			$this->compiled = false;
 			if(!count($values)){
 				throw new Exception('The WHERE_IN_VALUES requires $values array to have values.');
 			}
@@ -301,6 +307,7 @@
 		private $where_in_subquery = [];
 
 		public function where_in_subquery($field, $value, $splitter = 'AND', $prefix = ''){
+			$this->compiled = false;
 			if(!is_string($value)){
 				if($value instanceof Select){
 					$value = $value->debug(true);
@@ -339,6 +346,7 @@
 		private $set = [];
 
 		public function set($column, $operator, $value, $rawValue = false){
+			$this->compiled = false;
 			$this->set[] = [$column, $operator, $value, $rawValue];
 		}
 

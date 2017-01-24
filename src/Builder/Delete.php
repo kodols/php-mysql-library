@@ -191,6 +191,7 @@ class Delete extends Builder {
 	private $raw_column = [];
 
 	public function raw_column($name, $alias = null){
+		$this->compiled = false;
 		$this->raw_column[] = [$name, $alias];
 		$this->column_indexes[] = 'raw_column';
 		return $this;
@@ -199,12 +200,14 @@ class Delete extends Builder {
 	private $column = [];
 
 	public function column($name, $alias = null){
+		$this->compiled = false;
 		$this->column[] = [$name, $alias];
 		$this->column_indexes[] = 'column';
 		return $this;
 	}
 
 	public function subquery($query, $alias = null){
+		$this->compiled = false;
 		if(!is_string($query)){
 			if($query instanceof Select){
 				$query = $query->debug(true);
@@ -225,6 +228,7 @@ class Delete extends Builder {
 	private $from = [];
 
 	public function from($name, $alias = null){
+		$this->compiled = false;
 		$this->from[] = [$name, $alias];
 		return $this;
 	}
@@ -232,6 +236,7 @@ class Delete extends Builder {
 	private $joins = [];
 
 	public function join($table, $alias = null, $format = 'LEFT'){
+		$this->compiled = false;
 		if(!$format){
 			$format = '';
 		}
@@ -244,6 +249,7 @@ class Delete extends Builder {
 	private $on = [];
 
 	public function on($field1, $operator, $field2, $format = 'AND'){
+		$this->compiled = false;
 		if(!count($this->joins)){
 			throw new Exception('Cannot call query builders ON if there was no join initiated.');
 		}
@@ -262,6 +268,7 @@ class Delete extends Builder {
 	private $where = [];
 
 	public function where($field, $operator, $value, $format = null, $values2 = null, $splitter = 'AND'){
+		$this->compiled = false;
 		$this->where_indexes[] = 'where';
 		$this->where[] = [$field, $operator, $value, $format, $values2, $splitter];
 		return $this;
@@ -278,6 +285,7 @@ class Delete extends Builder {
 	private $raw_where = [];
 
 	public function raw_where($field, $operator, $value, $format = null, $values2 = null, $splitter = 'AND'){
+		$this->compiled = false;
 		$this->where_indexes[] = 'raw_where';
 		$this->raw_where[] = [$field, $operator, $value, $format, $values2, $splitter];
 		return $this;
@@ -292,16 +300,19 @@ class Delete extends Builder {
 	}
 
 	public function open(){
+		$this->compiled = false;
 		$this->where_indexes[] = 'and_open';
 		return $this;
 	}
 
 	public function or_open(){
+		$this->compiled = false;
 		$this->where_indexes[] = 'or_open';
 		return $this;
 	}
 
 	public function close(){
+		$this->compiled = false;
 		$this->where_indexes[] = 'close';
 		return $this;
 	}
@@ -309,6 +320,8 @@ class Delete extends Builder {
 	private $where_in_values = [];
 
 	public function where_in_values($field, array $values, $splitter = 'AND', $prefix = ''){
+		$this->compiled = false;
+
 		if(!count($values)){
 			throw new Exception('The WHERE_IN_VALUES requires $values array to have values.');
 		}
@@ -341,6 +354,8 @@ class Delete extends Builder {
 	private $where_in_subquery = [];
 
 	public function where_in_subquery($field, $value, $splitter = 'AND', $prefix = ''){
+		$this->compiled = false;
+
 		if(!is_string($value)){
 			if($value instanceof Select){
 				$value = $value->debug(true);

@@ -25,16 +25,19 @@
 		}
 
 		public function table($name){
+			$this->compiled = false;
 			$this->table = str_replace(['`',' ',"\n","\r","\t"],'',$name);
 			return $this;
 		}
 
 		public function set($column, $value){
+			$this->compiled = false;
 			$this->values[str_replace('`','',$column)] = $value;
 			return $this;
 		}
 
 		public function value($value){
+			$this->compiled = false;
 			$this->values[] = $value;
 			return $this;
 		}
