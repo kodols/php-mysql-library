@@ -44,7 +44,7 @@
 			$builder = $this->build('update')->table($table);
 
 			foreach($set as $key => $value){
-				$builder->set($key, $value);
+				$builder->set($key, '=', $value);
 			}
 
 			foreach($where as $key => $value){

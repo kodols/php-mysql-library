@@ -179,35 +179,7 @@
 				$this->compiled_query .= ' WHERE '.$holder;
 			}
 
-			if(count($this->group_by)){
-				$this->compiled_query .= ' GROUP BY';
-				$holder = '';
-				foreach($this->group_by as $column){
-					$column = $this->clean($column);
-					$holder .= ($holder?', ':'').$column;
-				}
-				$this->compiled_query .= ' '.$holder;
-			}
-
-			if(count($this->order_by)){
-				$this->compiled_query .= ' ORDER BY';
-				$holder = '';
-				foreach($this->order_by as $column){
-					list($name, $direction) = $column;
-
-					$name = $this->clean($name);
-					$holder .= ($holder?', ':'').$name.' '.strtoupper($direction);
-				}
-				$this->compiled_query .= ' '.$holder;
-			}
-
-			if($this->offset !== null && $this->limit !== null){
-				$this->compiled_query .= ' LIMIT '.strval($this->offset).','.strval($this->limit);
-			}elseif($this->offset !== null){
-				$this->compiled_query .= ' OFFSET '.strval($this->offset);
-			}elseif($this->limit !== null){
-				$this->compiled_query .= ' LIMIT '.strval($this->limit);
-			}
+			$this->compiled = true;
 		}
 
 		private $table = [];
