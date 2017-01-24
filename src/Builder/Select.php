@@ -411,8 +411,8 @@
 			return $this->where_in_subquery($field, $value, 'OR');
 		}
 
-		public function where_not_in_subquery($field, $value){
-			return $this->where_in_subquery($field, $value, 'AND', 'NOT');
+		public function where_not_in_subquery($field, $value, $splitter = 'AND'){
+			return $this->where_in_subquery($field, $value, $splitter, 'NOT');
 		}
 
 		public function and_where_not_in_subquery($field, $value){
