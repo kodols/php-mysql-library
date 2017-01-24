@@ -29,7 +29,7 @@ git clone git://github.com/kodols/PHP-MySQL-Library.git
 or you can use composer
 
 ```
-currently unavailable
+composer require kodols/php-mysql-library
 ```
 
 ## Deployment
