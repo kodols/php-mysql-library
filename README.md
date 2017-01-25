@@ -71,4 +71,4 @@ This list will be updated every time a new contribution has been made.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
+This project is licensed under the MIT License - see the [https://github.com/kodols/php-mysql-library/blob/master/LICENSE](LICENSE) file for details
