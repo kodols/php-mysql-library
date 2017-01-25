@@ -11,12 +11,14 @@
 	use \Kodols\MySQL\Builder\Select;
 	use \Kodols\MySQL\Builder\Delete;
 	use \Kodols\MySQL\Builder\Update;
+	use \Kodols\MySQL\Report;
 	use \Exception;
 	use \PDO;
 
 	class Server {
 		use Native;
 		use Helpers;
+		use Report;
 
 		const CONNECTED = 1;
 		const DISCONNECTED = 2;
@@ -31,6 +33,10 @@
 		public function __construct(Configuration $configuration){
 			$this->state = self::DISCONNECTED;
 			$this->configuration = $configuration;
+		}
+
+		public function getConfiguration(){
+			return $this->configuration;
 		}
 
 		protected function createPDO(){
