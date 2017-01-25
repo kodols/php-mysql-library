@@ -26,13 +26,13 @@
 
 		public function table($name){
 			$this->compiled = false;
-			$this->table = str_replace(['`',' ',"\n","\r","\t"],'',$name);
+			$this->table = $name;
 			return $this;
 		}
 
 		public function set($column, $value){
 			$this->compiled = false;
-			$this->values[str_replace('`','',$column)] = $value;
+			$this->values[$column] = $value;
 			return $this;
 		}
 
@@ -46,11 +46,7 @@
 			$this->compiled_query = $this->method.' ';
 			$this->compiled_params = [];
 
-			if(strpos($this->table,'.') !== false){
-				$this->compiled_query .= '`'.str_replace('.', '`.`', $this->table).'`';
-			}else{
-				$this->compiled_query .= '`'.$this->table.'`';
-			}
+			$this->compiled_query.= $this->clean($this->table);
 
 			$useColumnKeys = true;
 			$columnKeys = '';
@@ -61,7 +57,7 @@
 					if(is_numeric($key)) {
 						$useColumnKeys = false;
 					}else{
-						$columnKeys .= ($columnKeys?',':'').'`'.$key.'`';
+						$columnKeys .= ($columnKeys?',':'').$this->clean($key);
 					}
 				}
 
