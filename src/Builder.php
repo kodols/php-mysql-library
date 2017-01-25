@@ -10,7 +10,7 @@
 		protected $buildFormat;
 		protected $compiled = false;
 
-		public function execute(){
+		public function execute($keepParameters = false){
 			if(!$this->compiled) {
 				$this->compile();
 			}
@@ -26,7 +26,10 @@
 
 			$this->compiled = false;
 			$this->compiled_query = '';
-			$this->compiled_params = [];
+
+			if(!$keepParameters) {
+				$this->compiled_params = [];
+			}
 
 			return $resource;
 		}
