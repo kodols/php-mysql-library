@@ -74,8 +74,8 @@
 			$this->compiled = true;
 		}
 
-		public function execute(){
-			parent::execute();
+		public function execute($keepParameters = false){
+			parent::execute($keepParameters);
 			return $this->server->lastInsertId();
 		}
 
