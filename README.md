@@ -1,5 +1,9 @@
 # MySQL Library for PHP
 
+[![Latest Stable Version](https://poser.pugx.org/kodols/PHP-MySQL-Library/v/stable.svg)](https://packagist.org/packages/stripe/stripe-php)
+[![Total Downloads](https://poser.pugx.org/kodols/PHP-MySQL-Library/downloads.svg)](packagist.org/packages/kodols/php-mysql-library)
+[![License](https://poser.pugx.org/kodols/PHP-MySQL-Library/license.svg)](packagist.org/packages/kodols/php-mysql-library)
+
 This library will give you access to everything you need from MySQL in PHP. 
 
 See our [Object Reference](https://github.com/kodols/PHP-MySQL-Library/wiki) to learn what is possible, or view our [demo folder](https://github.com/kodols/PHP-MySQL-Library/tree/master/demo) for examples.
