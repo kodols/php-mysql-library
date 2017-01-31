@@ -10,6 +10,48 @@
 		protected $buildFormat;
 		protected $compiled = false;
 
+		// http://php.net/manual/en/pdostatement.fetch.php
+		public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null){
+			$options = [];
+			
+			if($fetch_style !== null){
+				$options[] = $fetch_style;
+			}
+			
+			if($cursor_orientation !== null){
+				$options[] = $cursor_orientation;
+			}
+
+			if($cursor_offset !== null){
+				$options[] = $cursor_offset;
+			}
+
+			$resource = $this->execute();
+
+			return call_user_func_array([$resource,'fetch'], $options);
+		}
+
+		// http://php.net/manual/en/pdostatement.fetchall.php
+		public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null){
+			$options = [];
+			
+			if($fetch_style !== null){
+				$options[] = $fetch_style;
+			}
+			
+			if($fetch_argument !== null){
+				$options[] = $fetch_argument;
+			}
+
+			if($ctor_args !== null){
+				$options[] = $ctor_args;
+			}
+
+			$resource = $this->execute();
+
+			return call_user_func_array([$resource,'fetchAll'], $options);
+		}
+
 		public function execute($keepParameters = false){
 			if(!$this->compiled) {
 				$this->compile();
