@@ -1,13 +1,8 @@
 <?php
 
-	class TestCase extends \PHPUnit_Framework_TestCase {
+	class LibraryTest extends \PHPUnit_Framework_TestCase {
 
 		private $KML;
-
-		private function phpv(){
-			$version = explode('.', PHP_VERSION);
-			return ($version[0] * 10000 + $version[1] * 100 + $version[2]);
-		}
 
 		private function generateLibrary(){
 			if(!$this->KML instanceof \Kodols\MySQL\Library){
@@ -24,17 +19,13 @@
 			$this->generateLibrary();
 
 			$config = $this->KML->newConfiguration();
-			
-			if($this->phpv() > 54999){ // php 5.4 does not support ::class 
-				$this->assertInstanceOf(\Kodols\MySQL\Configuration::class, $config);
-			}
+
+			$this->assertInstanceOf(\Kodols\MySQL\Configuration::class, $config);
 			
 			$config->setDatabase('unittest');
 			$this->assertEquals('unittest', $config->getDatabase());
 
-			if($this->phpv() > 54999){ // php 5.4 does not support ::class 
-				$this->assertInstanceOf(\Kodols\MySQL\Library::class, $this->KML->attachConfiguration($config, 'testConfigurationObject'));
-			}
+			$this->assertInstanceOf(\Kodols\MySQL\Library::class, $this->KML->attachConfiguration($config, 'testConfigurationObject'));
 		}
 
 		public function testAbilityToExecuteNativeMethodsFromMainObject(){
@@ -72,14 +63,12 @@
 			$this->installBasicConfig('testBuilderInitialisation');
 			$server = $this->KML->connect('testBuilderInitialisation');
 
-			if($this->phpv() > 54999){ // php 5.4 does not support ::class 
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Delete::class, $server->build('delete'));
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Update::class, $server->build('update'));
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Select::class, $server->build('select'));
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Insert::class, $server->build('insert'));
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Ignore::class, $server->build('ignore'));
-				$this->assertInstanceOf(\Kodols\MySQL\Builder\Replace::class, $server->build('replace'));
-			}
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Delete::class, $server->build('delete'));
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Update::class, $server->build('update'));
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Select::class, $server->build('select'));
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Insert::class, $server->build('insert'));
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Ignore::class, $server->build('ignore'));
+			$this->assertInstanceOf(\Kodols\MySQL\Builder\Replace::class, $server->build('replace'));
 		}
 		
 	}
