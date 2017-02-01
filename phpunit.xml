@@ -7,7 +7,7 @@
 	convertWarningsToExceptions="true"
 	processIsolation="false"
 	stopOnFailure="false"
-	syntaxCheck="true"
+	syntaxCheck="false"
 	bootstrap="tests/bootstrap.php"
 	>
 	<testsuites>
