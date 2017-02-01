@@ -1,5 +1,6 @@
 # MySQL Library for PHP
 
+[![Build Status](https://travis-ci.org/kodols/php-mysql-library.svg?branch=master)](https://travis-ci.org/kodols/php-mysql-library)
 [![Latest Stable Version](https://poser.pugx.org/kodols/PHP-MySQL-Library/v/stable.svg)](https://packagist.org/packages/stripe/stripe-php)
 [![Total Downloads](https://poser.pugx.org/kodols/PHP-MySQL-Library/downloads.svg)](packagist.org/packages/kodols/php-mysql-library)
 [![License](https://poser.pugx.org/kodols/PHP-MySQL-Library/license.svg)](packagist.org/packages/kodols/php-mysql-library)
