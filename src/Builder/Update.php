@@ -348,6 +348,7 @@
 		public function set($column, $operator, $value, $rawValue = false){
 			$this->compiled = false;
 			$this->set[] = [$column, $operator, $value, $rawValue];
+			return $this;
 		}
 
 	}
