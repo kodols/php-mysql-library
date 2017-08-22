@@ -1,6 +1,5 @@
 <?php
 	
-	require_once 'PHPUnit/Autoload.php';
 	require(dirname(__FILE__) . '/src/Builder.php');
 	require(dirname(__FILE__) . '/src/Configuration.php');
 	require(dirname(__FILE__) . '/src/Helpers.php');
