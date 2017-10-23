@@ -195,11 +195,14 @@
 				$this->compiled_query .= ' WHERE '.$holder;
 			}
 
-			if(count($this->group_by)){
+			if(count($this->group_by) || count($this->raw_group_by)){
 				$this->compiled_query .= ' GROUP BY';
 				$holder = '';
 				foreach($this->group_by as $column){
 					$column = $this->clean($column);
+					$holder .= ($holder?', ':'').$column;
+				}
+				foreach($this->raw_group_by as $column){
 					$holder .= ($holder?', ':'').$column;
 				}
 				$this->compiled_query .= ' '.$holder;
@@ -450,6 +453,14 @@
 		public function group_by($column){
 			$this->compiled = false;
 			$this->group_by[] = $column;
+			return $this;
+		}
+
+		private $raw_group_by = [];
+
+		public function raw_group_by($column){
+			$this->compiled = false;
+			$this->raw_group_by[] = $column;
 			return $this;
 		}
 
