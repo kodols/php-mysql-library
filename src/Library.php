@@ -30,6 +30,10 @@
 
 		private static $connections = [];
 
+		public function hasAttached($id){
+			return !empty(self::$configurationDetails[$id]);
+		}
+
 		public function connect($connection_id = 'default'){
 			if(!isset(self::$connections[$connection_id])){
 				if(!isset(self::$configurationDetails[$connection_id])){
