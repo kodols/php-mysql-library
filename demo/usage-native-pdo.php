@@ -1,44 +1,46 @@
 <?php
 
-	/*
-	 * Integrate the library
-	 */
-	use \Kodols\MySQL\Library;
-	$KML = new Library;
+/*
+ * Integrate the library
+ */
 
-	$config = $KML->newConfiguration();
-	$config->setDatabase('project');
+use \Kodols\MySQL\Library;
 
-	$KML->attachConfiguration($config);
+$KML = new Library;
 
-	/*
-	 * Get the server object
-	 */
-	$db = $KML->connect();
+$config = $KML->newConfiguration();
+$config->setDatabase('project');
 
-	/*
-	 * Start using generic PDO functions as per PHP documentation.
-	 */
+$KML->attachConfiguration($config);
 
-	// http://php.net/manual/en/pdo.prepare.php
-	$res = $db->prepare('SELECT * FROM users WHERE email LIKE ?');
-	$res->execute([
-		'%ed%'
-	]);
+/*
+ * Get the server object
+ */
+$db = $KML->connect();
 
-	var_dump([
-		'count' => $res->rowCount(),
-		'one_row' => $res->fetch(),
-		'all_rows' => $res->fetchAll()
-	]);
+/*
+ * Start using generic PDO functions as per PHP documentation.
+ */
 
-	// http://php.net/manual/en/pdo.query.php
-	$res = $db->query('SELECT * FROM users');
+// http://php.net/manual/en/pdo.prepare.php
+$res = $db->prepare('SELECT * FROM users WHERE email LIKE ?');
+$res->execute([
+    '%ed%'
+]);
 
-	var_dump([
-		'count' => $res->rowCount(),
-		'one_row' => $res->fetch(),
-		'all_rows' => $res->fetchAll()
-	]);
+var_dump([
+    'count' => $res->rowCount(),
+    'one_row' => $res->fetch(),
+    'all_rows' => $res->fetchAll()
+]);
 
-	// etc.., full method view is available at http://php.net/manual/en/class.pdo.php
+// http://php.net/manual/en/pdo.query.php
+$res = $db->query('SELECT * FROM users');
+
+var_dump([
+    'count' => $res->rowCount(),
+    'one_row' => $res->fetch(),
+    'all_rows' => $res->fetchAll()
+]);
+
+// etc.., full method view is available at http://php.net/manual/en/class.pdo.php

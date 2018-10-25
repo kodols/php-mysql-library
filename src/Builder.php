@@ -1,112 +1,118 @@
 <?php
 
-	namespace Kodols\MySQL;
+namespace Kodols\MySQL;
 
-	class Builder {
+class Builder
+{
 
-		protected $compiled_query = '';
-		protected $compiled_params = [];
-		protected $server;
-		protected $buildFormat;
-		protected $compiled = false;
+    protected $compiled_query = '';
+    protected $compiled_params = [];
+    protected $server;
+    protected $buildFormat;
+    protected $compiled = false;
 
-		// http://php.net/manual/en/pdostatement.fetch.php
-		public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null){
-			$options = [];
-			
-			if($fetch_style !== null){
-				$options[] = $fetch_style;
-			}
-			
-			if($cursor_orientation !== null){
-				$options[] = $cursor_orientation;
-			}
+    // http://php.net/manual/en/pdostatement.fetch.php
+    public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null)
+    {
+        $options = [];
 
-			if($cursor_offset !== null){
-				$options[] = $cursor_offset;
-			}
+        if ($fetch_style !== null) {
+            $options[] = $fetch_style;
+        }
 
-			$resource = $this->execute();
+        if ($cursor_orientation !== null) {
+            $options[] = $cursor_orientation;
+        }
 
-			return call_user_func_array([$resource,'fetch'], $options);
-		}
+        if ($cursor_offset !== null) {
+            $options[] = $cursor_offset;
+        }
 
-		// http://php.net/manual/en/pdostatement.fetchall.php
-		public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null){
-			$options = [];
-			
-			if($fetch_style !== null){
-				$options[] = $fetch_style;
-			}
-			
-			if($fetch_argument !== null){
-				$options[] = $fetch_argument;
-			}
+        $resource = $this->execute();
 
-			if($ctor_args !== null){
-				$options[] = $ctor_args;
-			}
+        return call_user_func_array([$resource, 'fetch'], $options);
+    }
 
-			$resource = $this->execute();
+    // http://php.net/manual/en/pdostatement.fetchall.php
+    public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
+    {
+        $options = [];
 
-			return call_user_func_array([$resource,'fetchAll'], $options);
-		}
+        if ($fetch_style !== null) {
+            $options[] = $fetch_style;
+        }
 
-		public function execute($keepParameters = false){
-			if(!$this->compiled) {
-				$this->compile();
-			}
+        if ($fetch_argument !== null) {
+            $options[] = $fetch_argument;
+        }
 
-			if($this->server->isLogEnabled()){
-				$this->server->logQuery($this->buildFormat, $this->debug());
-			}
+        if ($ctor_args !== null) {
+            $options[] = $ctor_args;
+        }
 
-			$native = $this->server->getNativePdo();
+        $resource = $this->execute();
 
-			$resource = $native->prepare($this->compiled_query);
-			$resource->execute($this->compiled_params);
+        return call_user_func_array([$resource, 'fetchAll'], $options);
+    }
 
-			$this->compiled = false;
-			$this->compiled_query = '';
+    public function execute($keepParameters = false)
+    {
+        if (!$this->compiled) {
+            $this->compile();
+        }
 
-			if(!$keepParameters) {
-				$this->compiled_params = [];
-			}
+        if ($this->server->isLogEnabled()) {
+            $this->server->logQuery($this->buildFormat, $this->debug());
+        }
 
-			return $resource;
-		}
+        $native = $this->server->getNativePdo();
 
-		public function debug($return_pdo = false){
-			if(!$this->compiled){
-				$this->compile();
-			}
+        $resource = $native->prepare($this->compiled_query);
+        $resource->execute($this->compiled_params);
 
-			$query = $this->compiled_query;
+        $this->compiled = false;
+        $this->compiled_query = '';
 
-			foreach($this->compiled_params as $param_key => $param_value){
-				if(!is_numeric($param_key)){
-					$query = str_replace($param_key, '"'.$param_value.'"', $query);
-				}
-			}
+        if (!$keepParameters) {
+            $this->compiled_params = [];
+        }
 
-			if($return_pdo){
-				return [
-					'query' => $this->compiled_query,
-					'parameters' => $this->compiled_params
-				];
-			}
+        return $resource;
+    }
 
-			return $query;
-		}
+    public function debug($return_pdo = false)
+    {
+        if (!$this->compiled) {
+            $this->compile();
+        }
 
-		protected function clean($variable){
-			$variable = str_replace(['`',' ',"\n","\r","\t"],'',$variable);
+        $query = $this->compiled_query;
 
-			if(strpos($variable,'.') !== false){
-				return '`'.str_replace('.', '`.`', $variable).'`';
-			}
+        foreach ($this->compiled_params as $param_key => $param_value) {
+            if (!is_numeric($param_key)) {
+                $query = str_replace($param_key, '"' . $param_value . '"', $query);
+            }
+        }
 
-			return '`'.$variable.'`';
-		}
+        if ($return_pdo) {
+            return [
+                'query' => $this->compiled_query,
+                'parameters' => $this->compiled_params
+            ];
+        }
 
-	}
+        return $query;
+    }
+
+    protected function clean($variable)
+    {
+        $variable = str_replace(['`', ' ', "\n", "\r", "\t"], '', $variable);
+
+        if (strpos($variable, '.') !== false) {
+            return '`' . str_replace('.', '`.`', $variable) . '`';
+        }
+
+        return '`' . $variable . '`';
+    }
+
+}
