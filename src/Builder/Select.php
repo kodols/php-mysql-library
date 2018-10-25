@@ -103,11 +103,11 @@ class Select extends Builder
             if (isset($this->on[$joinIndex])) {
                 $holder = '';
                 foreach ($this->on[$joinIndex] as $on) {
-                    list($field1, $operator, $field2, $statement) = $on;
+                    list($field1, $operator, $field2, $statement, $applyAsString) = $on;
                     $holder .= ($holder ? ' ' . $statement : 'ON');
 
                     $field1 = $this->clean($field1);
-                    $field2 = $this->clean($field2);
+                    $field2 = $applyAsString === false ? $this->clean($field2) : $field2;
 
                     $holder .= ' ' . $field1 . ' ' . $operator . ' ' . $field2;
                 }
@@ -318,7 +318,7 @@ class Select extends Builder
 
     private $on = [];
 
-    public function on($field1, $operator, $field2, $format = 'AND')
+    public function on($field1, $operator, $field2, $format = 'AND', $applyAsString = false)
     {
         $this->compiled = false;
         if (!count($this->joins)) {
@@ -331,7 +331,7 @@ class Select extends Builder
             $this->on[$joinIndex] = [];
         }
 
-        $this->on[$joinIndex][] = [$field1, $operator, $field2, strtoupper($format)];
+        $this->on[$joinIndex][] = [$field1, $operator, $field2, strtoupper($format), boolval($applyAsString)];
 
         return $this;
     }
