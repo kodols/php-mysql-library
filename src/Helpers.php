@@ -61,4 +61,62 @@ trait Helpers
         $builder->execute();
     }
 
+	public function replaceMany($table, array $input, $get_query = false, $database = null){
+		return $this->insertMany($table, $input, $get_query, $database, 'replace');
+	}
+
+	public function ignoreMany($table, array $input, $get_query = false, $database = null){
+		return $this->insertMany($table, $input, $get_query, $database, 'insert ignore');
+	}
+
+	public function insertMany($table, array $input, $get_query = false, $database = null, $method = 'insert')
+	{
+		if (empty($input)) {
+			return false;
+		}
+
+		$table = str_replace('.', '`.`', $table);
+
+		$keys = [];
+		$values = [];
+		$data = [];
+		$rows = count($input);
+		$columns = count(reset($input));
+
+		$query = $method . ' INTO ' . ($database !== null ? '`' . $database . '`.' : '') . '`' . $table . '` (';
+
+		foreach (reset($input) as $key => $value) {
+			$keys[] = '`' . $key . '`';
+		}
+
+		$query .= implode(',', $keys) . ') VALUES';
+
+		foreach ($input as $index => $row)
+		{
+			foreach ($row as $key => $value)
+			{
+				$keyName = ':v' . $index . $key;
+				$values[] = $keyName;
+				$data[$keyName] = $value;
+			}
+
+			if ($index != 0) {
+				$query .= ',';
+			}
+
+			$query .= ' (' . implode(',', $values) . ')';
+
+			$values = [];
+		}
+
+		if ($get_query) {
+			foreach ($data as $key => $value) {
+				$query = str_replace($key, "'".str_replace("'","\\\'", $value), $query);
+			}
+			return $query;
+		}
+
+		$db = $this->prepare($query);
+		$db->execute($data);
+	}
 }
