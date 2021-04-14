@@ -165,8 +165,9 @@ class Delete extends Builder
 
                 $holder .= $field . ($prefix ? ' ' . $prefix : '') . ' IN(';
 
+                $i = 0;
                 foreach ($values as $index => $value) {
-                    if ($index) {
+                    if ($i++) {
                         $holder .= ', ';
                     }
                     $key = ':c' . $this->compileIndexActive . 'v' . hash('crc32', count($this->compiled_params));
