@@ -85,10 +85,10 @@ class Server
         return $this->createPDO();
     }
 
-    public function build($format)
+    public function build($format, array $options = [])
     {
         if ($format == 'insert') {
-            return new Insert($this);
+            return new Insert($this, $options);
         } elseif ($format == 'replace') {
             return new Replace($this);
         } elseif ($format == 'ignore') {

@@ -5,9 +5,13 @@ namespace Kodols\MySQL;
 trait Helpers
 {
 
-    private function __call_insert($table, $values, $type)
+    private function __call_insert($table, $values, $type, $options = [])
     {
-        $builder = $this->build($type)->into($table);
+        $options = [
+            'on_duplicate_key_update' => !empty($options['on_duplicate_key_update']),
+        ];
+
+        $builder = $this->build($type, $options)->into($table);
 
         foreach ($values as $key => $value) {
             if (is_numeric($key)) {
@@ -20,9 +24,9 @@ trait Helpers
         return $builder->execute();
     }
 
-    public function insert($table, array $values = [])
+    public function insert($table, array $values = [], array $options = [])
     {
-        return $this->__call_insert($table, $values, 'insert');
+        return $this->__call_insert($table, $values, 'insert', $options);
     }
 
     public function ignore($table, array $values = [])

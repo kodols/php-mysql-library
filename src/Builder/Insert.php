@@ -2,8 +2,8 @@
 
 namespace Kodols\MySQL\Builder;
 
-use \Kodols\MySQL\Server;
-use \Kodols\MySQL\Builder;
+use Kodols\MySQL\Server;
+use Kodols\MySQL\Builder;
 
 class Insert extends Builder
 {
@@ -13,12 +13,14 @@ class Insert extends Builder
 
     private $table = '';
     private $values = [];
+    private $options = [];
     protected $compiled_query = '';
     protected $compiled_params = [];
     protected $server;
 
-    public function __construct(Server $server)
+    public function __construct(Server $server, array $options = [])
     {
+        $this->options['on_duplicate_key_update'] = !empty($options['on_duplicate_key_update']);
         $this->server = $server;
     }
 
@@ -58,17 +60,23 @@ class Insert extends Builder
         $useColumnKeys = true;
         $columnKeys = '';
         $queryValues = '';
+        $updates = [];
 
         foreach ($this->values as $key => $value) {
+            $value_key = ':v' . count($this->compiled_params);
+
             if ($useColumnKeys) {
                 if (is_numeric($key)) {
                     $useColumnKeys = false;
                 } else {
                     $columnKeys .= ($columnKeys ? ',' : '') . $this->clean($key);
+
+                    if (!empty($this->options['on_duplicate_key_update'])) {
+                        $updates[] = $this->clean($key).'='.$value_key;
+                    }
                 }
             }
 
-            $value_key = ':v' . count($this->compiled_params);
             $queryValues .= ($queryValues ? ',' : '') . $value_key;
             $this->compiled_params[$value_key] = $value;
         }
@@ -78,6 +86,11 @@ class Insert extends Builder
         }
 
         $this->compiled_query .= ' VALUES(' . $queryValues . ')';
+
+        if($useColumnKeys && !empty($this->options['on_duplicate_key_update']) && count($updates)){
+            $this->compiled_query .= ' ON DUPLICATE KEY UPDATE '.implode(', ', $updates);
+        }
+
         $this->compiled = true;
     }
 
